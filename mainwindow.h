@@ -12,6 +12,8 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QString>
+#include <QScrollArea>
+#include <QScrollBar>
 
 namespace Ui {
   class MainWindow;

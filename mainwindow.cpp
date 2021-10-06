@@ -5,16 +5,26 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
 {
+    QScrollArea *scrollArea = new QScrollArea();
+    scrollArea->resize(250,250);
+  scrollArea->setWidgetResizable(true);
   // make window
-  QWidget *window = new QWidget;
+  QWidget *window = new QWidget(scrollArea);
+  window->resize(200,200);
+  scrollArea->setWidget(window);
 
+ 
   //main layout
   mainLayout = new QVBoxLayout(window);
+  
+
 
   createCommandBox();
   createOutputBox();
   createExitStatusBox();
   createHistoryBox();
+
+  
   
 
   //add box to main layout
@@ -27,9 +37,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
- 
 
-    window->show();
+
+    scrollArea->show();
 }
 
 void MainWindow::handleButton()
@@ -49,6 +59,7 @@ void MainWindow::handleButton()
   outputLayout->addWidget(outLabel);
 
   
+ 
   
   // cm.setCommand("hi");
 }
@@ -69,6 +80,9 @@ void MainWindow::createCommandBox()
   layout->addWidget(executeButton);
   //set layout of box
   commandBox->setLayout(layout);
+
+
+  
 }
 
 void MainWindow::createOutputBox(){
@@ -80,6 +94,11 @@ void MainWindow::createOutputBox(){
 
   //set layout of box
   outputBox->setLayout(outputLayout);
+
+ 
+
+ 
+
 }
 
 
@@ -105,28 +124,8 @@ void MainWindow::createHistoryBox(){
   historyLayout = new QVBoxLayout;
   //set layout of box
   historyBox->setLayout(historyLayout);
+
+
 }
 
-// void MainWindow::addCommand(string command2, string status, string result){
-//     //make the box
-//   QGroupBox *box = new QGroupBox();
-//   this->command = "command2";
-
-//   QString str = QString("%1").arg(command);
-//   //make parts of box
-//   QLabel *commandLabel = new QLabel(str);
-//   // QLabel *statusLabel = new QLabel(this->status);
-//   // QLabel *resultLabel = new QLabel(this->result);
-
-//   // box layout
-//   QHBoxLayout *layout = new QHBoxLayout;
-//   //add stuff to box layout
-//   layout->addWidget(commandLabel);
-//   // layout->addWidget(statusLabel);
-//   // layout->addWidget(resultLabel);
-
-//   //set layout of box
-//   box->setLayout(layout);
-//   historyLayout->addWidget(box);
-// }
 
