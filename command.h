@@ -5,7 +5,6 @@
 #include <boost/process/io.hpp>
 #include <iostream>
 #include <string>
-#include <vector>
 
 class Command{
     public:
@@ -14,14 +13,14 @@ class Command{
         std::string getOutput();
         int getReturnCode();
         void setCommand(std::string command);
+        void execute();
+
 
 
     private:
         std::string command;
         std::string output;
         int returnCode;
-        void execute();
-        std::vector<std::vector<std::vector<int> > > historyVector;
 
 
 

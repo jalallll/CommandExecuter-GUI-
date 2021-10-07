@@ -15,6 +15,11 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QTextEdit>
+#include <vector>
+#include <QListWidget>
+
+#include "command.h"
+
 
 
 namespace Ui {
@@ -35,6 +40,7 @@ private:
   void createHistoryBox();
   void addCommand(std::string command, std::string status, std::string result);
   void handleButton();
+  void onItemClicked(QListWidgetItem *item);
   
   QGroupBox *commandBox;
   QGroupBox *outputBox;
@@ -60,9 +66,9 @@ private:
   QVBoxLayout *mainLayout;
 
   QTextEdit *outputList;
-  QTextEdit *commandHistory;
+  std::vector<Command> commandVector;
 
-
+  QListWidget *commandHistory;
 
 
 

@@ -7,7 +7,6 @@ Command::Command(std::string command){
     setCommand(command);
     this->returnCode=0;
     this->output="";
-    execute();
 }
 
 std::string Command::getCommand(){
@@ -35,7 +34,7 @@ void Command::execute(){
     std::string line;
 
     while (pipe_stream && std::getline(pipe_stream, line) && !line.empty()){
-        this->output = this->output + " " + line;
+        this->output += line + " ";
         std::cerr << line << std::endl;
 
     }

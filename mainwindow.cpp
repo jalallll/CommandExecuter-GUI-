@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "command.h"
 
 using namespace std;
 
@@ -28,14 +27,23 @@ MainWindow::MainWindow(QWidget *parent)
   mainLayout->addWidget(historyBox);
 
   connect(executeButton, &QPushButton::released, this, &MainWindow::handleButton);
+  connect(commandHistory, &QListWidget::itemClicked, this, &MainWindow::onItemClicked);
+
   window->show();
   this->commandNum=0;
 }
 
+void MainWindow::onItemClicked(QListWidgetItem *item)
+{
+  int index = commandHistory->currentRow();
+  outputList->setText(QString::fromStdString(commandVector.at(index).getOutput()));
+  statusLabel->setText(QString::number(commandVector.at(index).getReturnCode()));
+}
+
 void MainWindow::handleButton()
 {
-  QString command = commandInput->text();
-  string commandString = command.toStdString();
+  QString commandQstr = commandInput->text();
+  string commandString = commandQstr.toStdString();
   // if command is empty or contains all spaces then prompt user
   if(commandString.length()==0||commandString.find_first_not_of(' ') == std::string::npos){
      string prompt = "Please Enter Valid Command";
@@ -45,19 +53,19 @@ void MainWindow::handleButton()
   }
   else{
     
-    Command cm(commandString);
-    string output = cm.getOutput();
-    int statusCode = cm.getReturnCode();
-    QString status = QString::number(statusCode);
-    statusLabel->setText(status);
-    QString outputQstr = QString::fromStdString(output);
+    Command commandObj(commandString);
+    commandObj.execute();
+    this->commandVector.push_back(commandObj);
+    
+    QString statusQstr = QString::number(commandVector.back().getReturnCode());
+    statusLabel->setText(statusQstr);
+    QString outputQstr = QString::fromStdString(commandVector.back().getOutput());
 
     outputList->setText(outputQstr);
 
-    this->commandNum++;
-    QString historyEntry = QString::number(this->commandNum);
-    historyEntry.append(")  " + command + " | " + status + " | " + outputQstr +"\n");
-    commandHistory->append(historyEntry);
+    QString historyEntry = QString::number(commandVector.size());
+    historyEntry.append(")  " + commandQstr + "\t( " + statusQstr + " )\n");
+    commandHistory->addItem(historyEntry);
   }
   
   
@@ -135,10 +143,8 @@ void MainWindow::createHistoryBox(){
   //set layout of box
   historyBox->setLayout(historyLayout);
 
-  commandHistory = new QTextEdit();
-  commandHistory->setReadOnly(true);
-  commandHistory->setLineWrapColumnOrWidth(50);
-  commandHistory->setWordWrapMode(QTextOption::WordWrap	);
+  commandHistory = new QListWidget();
+  
 
   historyLayout->addWidget(commandHistory);
 }
