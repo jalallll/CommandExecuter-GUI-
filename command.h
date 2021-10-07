@@ -21,6 +21,8 @@ class Command{
         std::string output;
         int returnCode;
         void execute();
+        std::vector<std::vector<std::vector<int> > > historyVector;
+
 
 
 

@@ -14,6 +14,8 @@
 #include <QString>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QTextEdit>
+
 
 namespace Ui {
   class MainWindow;
@@ -38,6 +40,7 @@ private:
   QGroupBox *outputBox;
   QGroupBox *statusBox;
   QGroupBox *historyBox;
+  QGroupBox *outputContainer;
 
   QVBoxLayout *outputLayout;
   QVBoxLayout *historyLayout;
@@ -51,7 +54,17 @@ private:
   QLabel *statusLabel;
   QLabel *outputLabel;
 
+  QScrollArea *outputScrollArea;
+  QScrollArea *mainScrollArea;
+
   QVBoxLayout *mainLayout;
+
+  QTextEdit *outputList;
+  QTextEdit *commandHistory;
+
+
+
+
 
   int commandNum;
 

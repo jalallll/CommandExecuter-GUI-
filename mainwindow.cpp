@@ -6,13 +6,10 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
 {
-  QScrollArea *scrollArea = new QScrollArea();
-  scrollArea->resize(400,400);
-  scrollArea->setWidgetResizable(true);
+ 
   // make window
-  QWidget *window = new QWidget(scrollArea);
-  window->resize(300,300);
-  scrollArea->setWidget(window);
+  QWidget *window = new QWidget();
+  window->setMaximumSize(500,500);
 
  
   //main layout
@@ -24,13 +21,14 @@ MainWindow::MainWindow(QWidget *parent)
   createHistoryBox();
 
   //add box to main layout
+  
   mainLayout->addWidget(commandBox);
   mainLayout->addWidget(outputBox);
   mainLayout->addWidget(statusBox);
   mainLayout->addWidget(historyBox);
 
   connect(executeButton, &QPushButton::released, this, &MainWindow::handleButton);
-  scrollArea->show();
+  window->show();
   this->commandNum=0;
 }
 
@@ -40,13 +38,12 @@ void MainWindow::handleButton()
   string commandString = command.toStdString();
   // if command is empty or contains all spaces then prompt user
   if(commandString.length()==0||commandString.find_first_not_of(' ') == std::string::npos){
-     string status = "Do not leave command input empty!";
-     QString qstr = QString::fromStdString(status);
-     this->statusLabel->setText(qstr);
+     string prompt = "Please Enter Valid Command";
+     QString qPrompt = QString::fromStdString(prompt);
+     outputList->setText(qPrompt);
 
   }
   else{
-    
     
     Command cm(commandString);
     string output = cm.getOutput();
@@ -55,14 +52,12 @@ void MainWindow::handleButton()
     statusLabel->setText(status);
     QString outputQstr = QString::fromStdString(output);
 
-    outputLabel->setText(outputQstr);
+    outputList->setText(outputQstr);
 
     this->commandNum++;
     QString historyEntry = QString::number(this->commandNum);
-    historyEntry.append(")  " + command + " | " + status + " | " + outputQstr);
-    QLabel *label = new QLabel(historyEntry);
-
-    historyLayout->addWidget(label);
+    historyEntry.append(")  " + command + " | " + status + " | " + outputQstr +"\n");
+    commandHistory->append(historyEntry);
   }
   
   
@@ -78,7 +73,6 @@ void MainWindow::createCommandBox()
 
 //make the box
   commandBox = new QGroupBox(tr("Enter A Command"));
-
 
   //make parts of box
   QLabel *label = new QLabel("Command: ");
@@ -98,19 +92,17 @@ void MainWindow::createCommandBox()
 void MainWindow::createOutputBox(){
   
   //make the box
-  outputBox = new QGroupBox(tr("Output"));
+  outputBox =new QGroupBox("Output");
 
-  // box layout
-  outputLayout = new QVBoxLayout;
+  //box layout
+  outputLayout = new QVBoxLayout(outputBox);
 
-  //set layout of box
-  outputBox->setLayout(outputLayout);
+  outputList = new QTextEdit();
+  outputList->setReadOnly(true);
+  outputList->setLineWrapColumnOrWidth(50);
+  outputList->setWordWrapMode(QTextOption::WordWrap	);
 
-  outputLabel = new QLabel(" ");
-
-  outputLayout->addWidget(outputLabel);
-
- 
+  outputLayout->addWidget(outputList);
 
 }
 
@@ -118,7 +110,7 @@ void MainWindow::createOutputBox(){
 void MainWindow::createExitStatusBox(){
 
   //make the box
-  statusBox = new QGroupBox(tr("Status: "));
+  statusBox = new QGroupBox();
 
   //make parts of box
   QLabel *label = new QLabel("Exit Status: ");
@@ -136,13 +128,19 @@ void MainWindow::createExitStatusBox(){
 void MainWindow::createHistoryBox(){
 
   //make the box
-  historyBox = new QGroupBox(tr("History: "));
+  historyBox = new QGroupBox("History: ");
 
   // box layout
   historyLayout = new QVBoxLayout;
   //set layout of box
   historyBox->setLayout(historyLayout);
 
+  commandHistory = new QTextEdit();
+  commandHistory->setReadOnly(true);
+  commandHistory->setLineWrapColumnOrWidth(50);
+  commandHistory->setWordWrapMode(QTextOption::WordWrap	);
+
+  historyLayout->addWidget(commandHistory);
 }
 
 
