@@ -53,14 +53,13 @@ void MainWindow::handleButton()
     int statusCode = cm.getReturnCode();
     QString status = QString::number(statusCode);
     statusLabel->setText(status);
-    QString qstr = QString::fromStdString(output);
+    QString outputQstr = QString::fromStdString(output);
 
-    QLabel *outLabel = new QLabel(qstr);
-    outputLayout->addWidget(outLabel);
+    outputLabel->setText(outputQstr);
 
     this->commandNum++;
     QString historyEntry = QString::number(this->commandNum);
-    historyEntry.append(")  " + command + " | " + status + " | " + qstr);
+    historyEntry.append(")  " + command + " | " + status + " | " + outputQstr);
     QLabel *label = new QLabel(historyEntry);
 
     historyLayout->addWidget(label);
@@ -107,6 +106,10 @@ void MainWindow::createOutputBox(){
   //set layout of box
   outputBox->setLayout(outputLayout);
 
+  outputLabel = new QLabel(" ");
+
+  outputLayout->addWidget(outputLabel);
+
  
 
 }
@@ -126,7 +129,7 @@ void MainWindow::createExitStatusBox(){
   //set layout of box
   statusBox->setLayout(statusLayout);
 
-  statusLabel = new QLabel("NULL");
+  statusLabel = new QLabel(" ");
   statusLayout->addWidget(statusLabel);
 }
 

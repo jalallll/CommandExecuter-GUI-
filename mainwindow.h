@@ -49,6 +49,7 @@ private:
   std::string command;
 
   QLabel *statusLabel;
+  QLabel *outputLabel;
 
   QVBoxLayout *mainLayout;
 
