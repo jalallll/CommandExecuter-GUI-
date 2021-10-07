@@ -49,10 +49,10 @@ private:
   std::string command;
 
   QLabel *statusLabel;
-  QLabel *commandHistory[100];
-  QLabel *outputHistory[100];
 
   QVBoxLayout *mainLayout;
+
+  int commandNum;
 
 };
 #endif // MAINWINDOW_H

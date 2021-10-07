@@ -31,27 +31,45 @@ MainWindow::MainWindow(QWidget *parent)
 
   connect(executeButton, &QPushButton::released, this, &MainWindow::handleButton);
   scrollArea->show();
+  this->commandNum=0;
 }
 
 void MainWindow::handleButton()
 {
-  // change the text
-  //executeButton->setText("Example");
   QString command = commandInput->text();
-  QLabel *label = new QLabel(command);
-  historyLayout->addWidget(label);
   string commandString = command.toStdString();
-  Command cm(commandString);
-  string output = cm.getOutput();
-  QString qstr = QString::fromStdString(output);
+  // if command is empty or contains all spaces then prompt user
+  if(commandString.length()==0||commandString.find_first_not_of(' ') == std::string::npos){
+     string status = "Do not leave command input empty!";
+     QString qstr = QString::fromStdString(status);
+     this->statusLabel->setText(qstr);
 
-  QLabel *outLabel = new QLabel(qstr);
-  outputLayout->addWidget(outLabel);
+  }
+  else{
+    
+    
+    Command cm(commandString);
+    string output = cm.getOutput();
+    int statusCode = cm.getReturnCode();
+    QString status = QString::number(statusCode);
+    statusLabel->setText(status);
+    QString qstr = QString::fromStdString(output);
+
+    QLabel *outLabel = new QLabel(qstr);
+    outputLayout->addWidget(outLabel);
+
+    this->commandNum++;
+    QString historyEntry = QString::number(this->commandNum);
+    historyEntry.append(")  " + command + " | " + status + " | " + qstr);
+    QLabel *label = new QLabel(historyEntry);
+
+    historyLayout->addWidget(label);
+  }
+  
+  
 
 
-  int statusCode = cm.getReturnCode();
-  QString status = QString::number(statusCode);
-  statusLabel->setText(status);
+  
 
 
 }
@@ -88,6 +106,8 @@ void MainWindow::createOutputBox(){
 
   //set layout of box
   outputBox->setLayout(outputLayout);
+
+ 
 
 }
 
