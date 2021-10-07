@@ -2,30 +2,26 @@
 #include "command.h"
 
 using namespace std;
+
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
 {
-    QScrollArea *scrollArea = new QScrollArea();
-    scrollArea->resize(250,250);
+  QScrollArea *scrollArea = new QScrollArea();
+  scrollArea->resize(400,400);
   scrollArea->setWidgetResizable(true);
   // make window
   QWidget *window = new QWidget(scrollArea);
-  window->resize(200,200);
+  window->resize(300,300);
   scrollArea->setWidget(window);
 
  
   //main layout
   mainLayout = new QVBoxLayout(window);
   
-
-
   createCommandBox();
   createOutputBox();
   createExitStatusBox();
   createHistoryBox();
-
-  
-  
 
   //add box to main layout
   mainLayout->addWidget(commandBox);
@@ -34,12 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
   mainLayout->addWidget(historyBox);
 
   connect(executeButton, &QPushButton::released, this, &MainWindow::handleButton);
-
-
-
-
-
-    scrollArea->show();
+  scrollArea->show();
 }
 
 void MainWindow::handleButton()
@@ -52,22 +43,26 @@ void MainWindow::handleButton()
   string commandString = command.toStdString();
   Command cm(commandString);
   string output = cm.getOutput();
-  //output = "jj";
   QString qstr = QString::fromStdString(output);
 
   QLabel *outLabel = new QLabel(qstr);
   outputLayout->addWidget(outLabel);
 
-  
- 
-  
-  // cm.setCommand("hi");
+
+  int statusCode = cm.getReturnCode();
+  QString status = QString::number(statusCode);
+  statusLabel->setText(status);
+
+
 }
 
 void MainWindow::createCommandBox()
 {
+
 //make the box
   commandBox = new QGroupBox(tr("Enter A Command"));
+
+
   //make parts of box
   QLabel *label = new QLabel("Command: ");
   commandInput = new QLineEdit();
@@ -81,11 +76,10 @@ void MainWindow::createCommandBox()
   //set layout of box
   commandBox->setLayout(layout);
 
-
-  
 }
 
 void MainWindow::createOutputBox(){
+  
   //make the box
   outputBox = new QGroupBox(tr("Output"));
 
@@ -95,36 +89,36 @@ void MainWindow::createOutputBox(){
   //set layout of box
   outputBox->setLayout(outputLayout);
 
- 
-
- 
-
 }
 
 
 void MainWindow::createExitStatusBox(){
+
   //make the box
   statusBox = new QGroupBox(tr("Status: "));
+
   //make parts of box
   QLabel *label = new QLabel("Exit Status: ");
-  status = new QLabel("Null");
   // box layout
-  QHBoxLayout *layout = new QHBoxLayout;
+  statusLayout = new QHBoxLayout;
   //add stuff to box layout
-  layout->addWidget(label);
-  layout->addWidget(status);
+  statusLayout->addWidget(label);
   //set layout of box
-  statusBox->setLayout(layout);
+  statusBox->setLayout(statusLayout);
+
+  statusLabel = new QLabel("NULL");
+  statusLayout->addWidget(statusLabel);
 }
 
 void MainWindow::createHistoryBox(){
+
   //make the box
   historyBox = new QGroupBox(tr("History: "));
+
   // box layout
   historyLayout = new QVBoxLayout;
   //set layout of box
   historyBox->setLayout(historyLayout);
-
 
 }
 

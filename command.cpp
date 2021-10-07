@@ -5,6 +5,8 @@ using namespace boost::process;
 
 Command::Command(std::string command){
     setCommand(command);
+    this->returnCode=0;
+    this->output="";
     execute();
 }
 
@@ -25,19 +27,25 @@ void Command::setCommand(std::string command){
 }
 
 void Command::execute(){
-    ipstream pipe_stream;
+    try{
+  ipstream pipe_stream;
     std::string command = this->command;
-    child c(command, std_out > pipe_stream);
+    child c(command, (std_out & std_err) > pipe_stream);
 
     std::string line;
 
     while (pipe_stream && std::getline(pipe_stream, line) && !line.empty()){
-        this->output = line;
+        this->output = this->output + " " + line;
         std::cerr << line << std::endl;
 
     }
 
     c.wait();
+    this->returnCode = c.exit_code();
+    } catch(...){
+        this->returnCode=-1; 
+    }
+  
 }
 
 

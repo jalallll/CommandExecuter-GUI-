@@ -5,6 +5,7 @@
 #include <boost/process/io.hpp>
 #include <iostream>
 #include <string>
+#include <vector>
 
 class Command{
     public:

@@ -41,13 +41,14 @@ private:
 
   QVBoxLayout *outputLayout;
   QVBoxLayout *historyLayout;
+  QHBoxLayout *statusLayout;
 
   QLineEdit *commandInput;
   QPushButton *executeButton;
 
   std::string command;
 
-  QLabel *status;
+  QLabel *statusLabel;
   QLabel *commandHistory[100];
   QLabel *outputHistory[100];
 
