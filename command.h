@@ -8,16 +8,17 @@
 
 class Command{
     public:
-        explicit Command(std::string command);
+        explicit Command();
         std::string getCommand();
         std::string getOutput();
         int getReturnCode();
-        void setCommand(std::string command);
-        void execute();
+        
+        void execute(std::string command);
 
 
 
     private:
+        void setCommand(std::string command);
         std::string command;
         std::string output;
         int returnCode;

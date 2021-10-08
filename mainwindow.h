@@ -1,7 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include <string>
 
+#include <string>
+#include <QApplication>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QWidget>
