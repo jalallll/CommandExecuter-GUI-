@@ -1,7 +1,26 @@
+/*
+Author: Jalal Qureshi
+
+Description of file contents: This file uses the QT5 library to implement a graphical user interface 
+                              to allow users to input commands and observe the output
+                              
+Date: 10/05/2021
+*/
+
 #include "mainwindow.h"
 
 using namespace std;
 
+
+/*
+Function name: MainWindow
+
+Description: Constructor for class MainWindow
+                              
+Parameter descriptions: A parent widget of type QWidget or null if no parent widget
+
+Return description: A MainWindow object
+*/
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
 {
@@ -36,6 +55,28 @@ MainWindow::MainWindow(QWidget *parent)
   window->show();
 }
 
+/*
+Function name: ~MainWindow
+
+Description: Desctructor for class MainWindow
+                              
+Parameter descriptions: None
+
+Return description: None
+*/
+MainWindow::~MainWindow(){
+
+}
+
+/*
+Function name: onItemClicked
+
+Description: For the selected QListWidgetItem, display the corresponding command output from the command vector array
+                              
+Parameter descriptions: The selected item of type QListWidgetItem from the QListWidget
+
+Return description: void
+*/
 void MainWindow::onItemClicked(QListWidgetItem *item)
 {
   // get the row number of item currently selected from the commandHistory list
@@ -49,8 +90,20 @@ void MainWindow::onItemClicked(QListWidgetItem *item)
   // obtain the return code from the command vector at the specified index, convert it to QString, 
   // display the return code in the status box
   statusLabel->setText(QString::number(commandVector.at(index).getReturnCode()));
+
+  
+  item->setBackground(Qt::white);
 }
 
+/*
+Function name: handleButton
+
+Description: If push button is pressed, begin execution of the command inputted
+                              
+Parameter descriptions: None
+
+Return description: void
+*/
 void MainWindow::handleButton()
 {
   // get QString and string version of the input in the commandInput
@@ -107,6 +160,15 @@ void MainWindow::handleButton()
 
 }
 
+/*
+Function name: createCommandBox
+
+Description: Create a QGroupBox to display a graphical layout allowing the user to input commands and execute them by pressing a button
+                              
+Parameter descriptions: None
+
+Return description: void
+*/
 void MainWindow::createCommandBox()
 {
   // A groupbox to contain and display the GUI widgets needed to enter and execute commands
@@ -139,6 +201,15 @@ void MainWindow::createCommandBox()
 
 }
 
+/*
+Function name: createOutputBox
+
+Description: Create a QGroupBox to display the output from command execution
+                              
+Parameter descriptions: None
+
+Return description: void
+*/
 void MainWindow::createOutputBox(){
   
   // Initialize the group box which will display the output of the executed command
@@ -164,7 +235,15 @@ void MainWindow::createOutputBox(){
 
 }
 
+/*
+Function name: createExitStatusBox
 
+Description: Create a QGroupBox to display the return code recieved from command execution
+                              
+Parameter descriptions: None
+
+Return description: void
+*/
 void MainWindow::createExitStatusBox(){
 
   // Initialize the group box which will contain the widgets needed to display the return code
@@ -188,6 +267,15 @@ void MainWindow::createExitStatusBox(){
   statusLayout->addWidget(statusLabel);
 }
 
+/*
+Function name: createHistoryBox
+
+Description: Create a QGroupBox to display the list of commands previously executed
+                              
+Parameter descriptions: None
+
+Return description: void
+*/
 void MainWindow::createHistoryBox(){
 
   // Initialize the QGroupBox widget that will contain widgets displaying the history of the commands executed

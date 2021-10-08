@@ -1,7 +1,16 @@
+/*
+Author: Jalal Qureshi
+
+Description of file contents: This file defines the function prototypes and instance variables of the mainWindow class
+                              
+Date: 10/05/2021
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <string>
+#include <vector>
 #include <QApplication>
 #include <QMainWindow>
 #include <QPushButton>
@@ -10,14 +19,11 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
-#include <QGridLayout>
 #include <QGroupBox>
 #include <QString>
-#include <QScrollArea>
-#include <QScrollBar>
 #include <QTextEdit>
-#include <vector>
 #include <QListWidget>
+
 
 #include "command.h"
 
@@ -33,6 +39,7 @@ class MainWindow : public QMainWindow
 
 public:
   explicit MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
 
 private:
   void createCommandBox();
@@ -47,28 +54,18 @@ private:
   QGroupBox *outputBox;
   QGroupBox *statusBox;
   QGroupBox *historyBox;
-  QGroupBox *outputContainer;
-
   QVBoxLayout *outputLayout;
   QVBoxLayout *historyLayout;
   QHBoxLayout *statusLayout;
-
   QLineEdit *commandInput;
   QPushButton *executeButton;
-
-  std::string command;
-
+  //std::string command;
   QLabel *statusLabel;
   QLabel *outputLabel;
 
-  QScrollArea *outputScrollArea;
-  QScrollArea *mainScrollArea;
-
   QVBoxLayout *mainLayout;
-
   QTextEdit *outputList;
   std::vector<Command> commandVector;
-
   QListWidget *commandHistory;
 
 

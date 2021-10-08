@@ -1,7 +1,25 @@
+/*
+Author: Jalal Qureshi
+
+Description of file contents: This file uses the boost library to execute system level commands
+                              and return corresponding standard output and standard error
+
+Date: 10/04/2021
+*/
+
 #include "command.h"
 
 using namespace boost::process;
 
+/*
+Function name: Command
+
+Description: Constructor for class Command
+                              
+Parameter descriptions: None
+
+Return description: A Command object
+*/
 
 Command::Command(){
     // initialize global variables
@@ -10,23 +28,71 @@ Command::Command(){
     this->output="";
 }
 
+/*
+Function name: ~Command
+
+Description: Deconstructor for class Command
+                              
+Parameter descriptions: None
+
+Return description: None
+*/
+
+Command::~Command(){
+
+}
+
+/*
+Function name: getCommand
+
+Description: Getter method for command
+                              
+Parameter descriptions: None
+
+Return description: Return a string storing the command
+*/
+
 std::string Command::getCommand(){
     return this->command;
 }
+
+/*
+Function name: getCommand
+
+Description: Getter method for command
+                              
+Parameter descriptions: None
+
+Return description: Return a string storing the command
+*/
 
 std::string Command::getOutput(){
     return this->output;
 }
 
+/*
+Function name: getReturnCode
+
+Description: Getter method for return code
+                              
+Parameter descriptions: None
+
+Return description: Return an int storing the return code
+*/
+
 int Command::getReturnCode(){
     return this->returnCode;
 }
 
-void Command::setCommand(std::string command){
-    this->command = command;
-}
+/*
+Function name: execute
 
+Description: Execute given command by creating a stream for the child process and then setting the value of the output and return code instance variables
+                              
+Parameter descriptions: A string containing the command to be executed
 
+Return description: void
+*/
 
 void Command::execute(std::string command){
     try{
@@ -58,5 +124,22 @@ void Command::execute(std::string command){
     }
   
 }
+
+/*
+Function name: setCommand
+
+Description: Setter method for the instance variable command
+                              
+Parameter descriptions: A string containing the command
+
+Return description: void
+*/
+
+void Command::setCommand(std::string command){
+    this->command = command;
+}
+
+
+
 
 
